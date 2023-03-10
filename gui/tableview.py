@@ -5,7 +5,7 @@ from numpy.random import randint
 
 class TableView:
     def __init__(self, parent, select_callback=None):
-        columns = ('subj', 'n_chs', 'n_freqs')
+        columns = ('subj', 'n_freqs', 'n_chs')
 
         self.select_callback = select_callback
 

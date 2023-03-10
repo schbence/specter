@@ -4,6 +4,7 @@ import gui.tableview as tv
 from numpy.random import randint
 import kernel.iomanager as io
 import kernel.datamodel as dm
+import gui.dialogs as dia
 import res.const as const
 
 
@@ -74,6 +75,21 @@ class MainGUI:
         rtop = tk.Frame(right, width=400, height=100, bg='darkred')
         rtop.pack(side='top', fill='both')
 
+        freqs_button = tk.Button(rtop, text='Set frequencies')
+        freqs_button.pack(side='left')
+
+        chs_button = tk.Button(rtop, text='Set channel names', command=self.set_channel_names)
+        chs_button.pack(side='left')
+
+    def set_channel_names(self):
+        if self.input_manager != None and self.input_manager.checked:
+            cnd = dia.ChannelNamesDialog(self.input_manager.n_chs)
+            ch_names = cnd.getValues()
+            print('Channels named as: %s' % str(ch_names))
+        else:
+            print('Error: input is not loaded so cannot set channel names')
+
+
     def setup_right_middle(self, right):
         rmid = tk.Frame(right, width=400, height=400, bg='yellow')
         rmid.pack(side='top', fill='both', expand=True, padx=4, pady=4)
@@ -87,7 +103,8 @@ class MainGUI:
     def select_callback(self):
         idx = self.table.get_selected_idx()
         print("My selection: " + str(idx))
-        print(self.datamodel.get_data(idx[0]))
+        if self.datamodel.freqs_chs_set():
+            print(self.datamodel.get_data(idx[0]))
 
 
 
@@ -123,6 +140,7 @@ class MainGUI:
 
     def prompt_found(self):
         self.dir_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
+
 
 
     def set_table_data(self, data):

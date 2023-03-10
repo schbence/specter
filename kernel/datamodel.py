@@ -22,8 +22,11 @@ class PSDDataSetModel:
         else:
             print("Warning: channel number difference!")
 
+    def freqs_chs_set(self):
+        return len(self.chs) > 0 and len(self.freqs) > 0
+
     def get_data(self, n):
-        if len(self.chs) > 0 and len(self.freqs) > 0:
+        if self.freqs_chs_set():
             subj, df = self.input.read(n)
             df.columns = self.chs
             df['freq'] = self.freqs
@@ -34,7 +37,7 @@ class PSDDataSetModel:
 
     def process(self, processor):
         print('Processing using %s' % processor.name)
-        if len(self.chs) > 0 and len(self.freqs) > 0:
+        if self.freqs_chs_set():
             results = []
             for i in range(self.input.count()):
                 subj, df = self.get_data(i)
