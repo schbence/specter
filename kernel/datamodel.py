@@ -3,10 +3,12 @@ import pandas as pd
 class PSDDataSetModel:
 
     def __init__(self, input_manager):
-        if input_manager.check_shapes()[1]:
+        if input_manager.checked:
             self.chs = []
             self.freqs = []
             self.input = input_manager
+        else:
+            print('Input manager has unchecked shapes')
 
     def set_freqs(self, freqs):
         if len(freqs) == self.input.n_freqs:

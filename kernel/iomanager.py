@@ -11,6 +11,7 @@ class InputManager:
         self.t = transpose
         self.n_freqs = 0
         self.n_chs = 0
+        self.checked = False
 
     def locate_files(self):
         all_files = os.listdir(self.input_dir)
@@ -35,15 +36,15 @@ class InputManager:
         return self.files[n], df
 
     def check_shapes(self):
-        same = True
         common_shape = self.read(0)[1].shape
         all_shapes = []
+        self.checked = True
         for i in range(1, len(self.files)):
             si = self.read(i)[1].shape
             if not (si == common_shape):
                 print("Shape inconsistency detected!")
-                same = False
+                self.checked = False
             all_shapes.append((self.files[i],) + si)
         print("Shapes consistent! Freq bins: %d Channels: %d" % common_shape)
         self.n_freqs, self.n_chs = common_shape
-        return all_shapes, same, common_shape
+        return all_shapes, self.checked, common_shape
