@@ -1,7 +1,7 @@
 from kernel import *
 import numpy as np
 
-dir = '/Users/schbnc/Research/EEG/Resting_state_elemzesek/Zmax_PSD_output/'
+dir = '/Users/schbnc/Research/EEG/Resting_state_elemzesek/EEG_PSD_output/'
 inp = iomanager.InputManager(dir, ext='.txt', delim_white=True, transpose=True)
 inp.check_shapes()
 dat = datamodel.PSDDataSetModel(inp)

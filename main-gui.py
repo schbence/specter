@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-from gui.tableview import create_table_view
+import gui.tableview as tv
 from numpy.random import randint
 import kernel.iomanager as io
 import res.const as const
@@ -49,8 +49,13 @@ class MainGUI:
         lbot = tk.Frame(left, width=600, height=500)
         lbot.pack(side='bottom', fill='both', expand=True)
 
-        self.tf, self.tree = create_table_view(lbot, select_callback=lambda:print('haha!'))
-        self.tf.pack(fill='both', expand=True)
+        self.table = tv.TableView(lbot, select_callback=lambda: self.select_callback())
+
+        self.tree = self.table.get_tree()
+        self.table.treeFrame.pack(fill='both', expand=True)
+
+    def select_callback(self):
+        print("My selection: " + str(self.table.get_selected_idx()))
 
     def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkblue')

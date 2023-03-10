@@ -39,7 +39,7 @@ class InputManager:
         common_shape = self.read(0)[1].shape
         all_shapes = []
         self.checked = True
-        for i in range(1, len(self.files)):
+        for i in range(0, len(self.files)):
             si = self.read(i)[1].shape
             if not (si == common_shape):
                 print("Shape inconsistency detected!")
