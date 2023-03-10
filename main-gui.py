@@ -23,6 +23,7 @@ class MainGUI:
 
     def init_vars(self):
         self.root = tk.Tk()
+        self.root.minsize(1000,600)
         self.root.config(bg='skyblue')
         self.openDataCallback = None
         self.table_data = []
@@ -55,8 +56,20 @@ class MainGUI:
         self.table.treeFrame.pack(fill='both', expand=True)
 
     def setup_right_panel(self):
-        right = tk.Frame(self.root, width=400, height=600, bg='darkblue')
+        right = tk.Frame(self.root, width=400, height=600, bg='darkgrey')
         right.pack(side='right', expand=True, fill='both')
+
+        rtop = tk.Frame(right, width=400, height=100, bg='darkred')
+
+        rmid = tk.Frame(right, width=400, height=400, bg='yellow')
+
+        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
+        rtop.pack(side='top', fill='both')
+
+        rmid.pack(side='top', fill='both', expand=True, padx=4, pady=4)
+
+        rbot.pack(side='bottom', fill='x')
+
 
 
 
