@@ -17,10 +17,11 @@ def generate_dummy_data():
 class MainGUI:
 
     def __init__(self):
+        self.init_vars()
         self.setup_gui()
         self.input_manager = None
 
-    def setup_gui(self):
+    def init_vars(self):
         self.root = tk.Tk()
         self.root.config(bg='skyblue')
         self.openDataCallback = None
@@ -28,7 +29,11 @@ class MainGUI:
         self.dir_text = tk.StringVar()
         self.dir_text.set(const.INPUT_DIR_PLACEHOLDER)
 
+    def setup_gui(self):
+        self.setup_left_panel()
+        self.setup_right_panel()
 
+    def setup_left_panel(self):
         left = tk.Frame(self.root, width=600, height=600, bg='grey')
         left.pack(side='left', expand=True, fill='both')
 
@@ -44,9 +49,10 @@ class MainGUI:
         lbot = tk.Frame(left, width=600, height=500)
         lbot.pack(side='bottom', fill='both', expand=True)
 
-        self.tf, self.tree = create_table_view(lbot)
+        self.tf, self.tree = create_table_view(lbot, select_callback=lambda:print('haha!'))
         self.tf.pack(fill='both', expand=True)
 
+    def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkblue')
         #right.grid(row=0, column=1, padx=5, pady=5)
         right.pack(side='right', expand=True, fill='both')

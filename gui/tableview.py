@@ -3,7 +3,7 @@ from tkinter import ttk
 from numpy.random import randint
 
 
-def create_table_view(parent):
+def create_table_view(parent, select_callback=None):
     columns = ('subj', 'n_chs', 'n_freqs')
 
     treeFrame = tk.Frame(parent)
@@ -15,14 +15,11 @@ def create_table_view(parent):
     tree.heading('n_chs', text='N_CHS')
 
     def item_selected(event):
-        for selected_item in tree.selection():
-            print(selected_item)
-            '''
-            item = tree.item(selected_item)
-            record = item['values']
-            print(",".join(record))
-            '''
-        print('----------------------')
+        idx = list(map(tree.index, tree.selection()))
+        print(idx)
+        print('---')
+        if select_callback:
+            select_callback()
 
     tree.bind('<<TreeviewSelect>>', item_selected)
     tree.pack(fill='both', side=tk.LEFT, expand=True)
