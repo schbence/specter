@@ -20,8 +20,6 @@ class MainGUI:
         self.setup_gui()
         self.input_manager = None
 
-
-
     def setup_gui(self):
         self.root = tk.Tk()
         self.root.config(bg='skyblue')
@@ -29,6 +27,7 @@ class MainGUI:
         self.table_data = []
         self.dir_text = tk.StringVar()
         self.dir_text.set(const.INPUT_DIR_PLACEHOLDER)
+
 
         left = tk.Frame(self.root, width=600, height=600, bg='grey')
         left.pack(side='left', expand=True, fill='both')
@@ -69,23 +68,19 @@ class MainGUI:
 
 
 
-    def prompt_not_found(self):
-        self.dir_text.set(const.NO_FILES_FOUND % (self.input_manager.ext, self.input_manager.input_dir))
-
-    def prompt_found(self):
-        self.dir_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
-
-    def prompt_loading(self):
-        self.dir_text.set('Loading...')
-
-
-
     def load_subjects_data(self):
         self.tree.delete(*self.tree.get_children())
         self.table_data = self.input_manager.check_shapes()[0]
         for d in self.table_data:
             self.tree.insert('', tk.END, values=d)
 
+
+
+    def prompt_not_found(self):
+        self.dir_text.set(const.NO_FILES_FOUND % (self.input_manager.ext, self.input_manager.input_dir))
+
+    def prompt_found(self):
+        self.dir_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
 
 
     def set_table_data(self, data):
