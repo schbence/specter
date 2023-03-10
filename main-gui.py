@@ -3,6 +3,7 @@ from tkinter import filedialog
 import gui.tableview as tv
 from numpy.random import randint
 import kernel.iomanager as io
+import kernel.datamodel as dm
 import res.const as const
 
 
@@ -20,6 +21,7 @@ class MainGUI:
         self.init_vars()
         self.setup_gui()
         self.input_manager = None
+        self.datamodel = None
 
     def init_vars(self):
         self.root = tk.Tk()
@@ -70,7 +72,9 @@ class MainGUI:
 
 
     def select_callback(self):
-        print("My selection: " + str(self.table.get_selected_idx()))
+        idx = self.table.get_selected_idx()
+        print("My selection: " + str(idx))
+        print(self.datamodel.get_data(idx[0]))
 
 
 
@@ -92,12 +96,12 @@ class MainGUI:
 
 
 
-
     def load_subjects_data(self):
         self.tree.delete(*self.tree.get_children())
         self.table_data = self.input_manager.check_shapes()[0]
         for d in self.table_data:
             self.tree.insert('', tk.END, values=d)
+        self.datamodel = dm.PSDDataSetModel(self.input_manager)
 
 
 
