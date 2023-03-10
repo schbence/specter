@@ -60,16 +60,12 @@ class MainGUI:
         right.pack(side='right', expand=True, fill='both')
 
         rtop = tk.Frame(right, width=400, height=100, bg='darkred')
-
         rmid = tk.Frame(right, width=400, height=400, bg='yellow')
-
         rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
+
         rtop.pack(side='top', fill='both')
-
         rmid.pack(side='top', fill='both', expand=True, padx=4, pady=4)
-
         rbot.pack(side='bottom', fill='x')
-
 
 
 
