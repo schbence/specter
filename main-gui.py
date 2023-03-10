@@ -36,6 +36,9 @@ class MainGUI:
         self.setup_left_panel()
         self.setup_right_panel()
 
+
+
+
     def setup_left_panel(self):
         left = tk.Frame(self.root, width=600, height=600, bg='grey')
         left.pack(side='left', expand=True, fill='both')
@@ -57,16 +60,26 @@ class MainGUI:
         self.tree = self.table.get_tree()
         self.table.treeFrame.pack(fill='both', expand=True)
 
+
+
+
     def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkgrey')
         right.pack(side='right', expand=True, fill='both')
+        self.setup_right_top(right)
+        self.setup_right_middle(right)
+        self.setup_right_bottom(right)
 
+    def setup_right_top(self, right):
         rtop = tk.Frame(right, width=400, height=100, bg='darkred')
-        rmid = tk.Frame(right, width=400, height=400, bg='yellow')
-        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
-
         rtop.pack(side='top', fill='both')
+
+    def setup_right_middle(self, right):
+        rmid = tk.Frame(right, width=400, height=400, bg='yellow')
         rmid.pack(side='top', fill='both', expand=True, padx=4, pady=4)
+
+    def setup_right_bottom(self, right):
+        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
         rbot.pack(side='bottom', fill='x')
 
 
