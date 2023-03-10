@@ -54,28 +54,33 @@ class MainGUI:
         self.tree = self.table.get_tree()
         self.table.treeFrame.pack(fill='both', expand=True)
 
-    def select_callback(self):
-        print("My selection: " + str(self.table.get_selected_idx()))
-
     def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkblue')
-        #right.grid(row=0, column=1, padx=5, pady=5)
         right.pack(side='right', expand=True, fill='both')
+
+
+
+    def select_callback(self):
+        print("My selection: " + str(self.table.get_selected_idx()))
 
 
 
     def select_input_dir(self):
         dir = filedialog.askdirectory()
         if dir != '':
-            self.dir_text.set('Current dir: %s' % dir)
-            self.input_manager = io.InputManager(dir, ext='.txt', delim_white=True, transpose=True)
-            if self.input_manager.count() == 0:
-                self.prompt_not_found()
-            else:
-                self.load_subjects_data()
-                self.prompt_found()
+            self.set_current_dir(dir)
         else:
             print('Opening cancelled')
+
+    def set_current_dir(self, dir):
+        self.dir_text.set('Current dir: %s' % dir)
+        self.input_manager = io.InputManager(dir, ext='.txt', delim_white=True, transpose=True)
+        if self.input_manager.count() == 0:
+            self.prompt_not_found()
+        else:
+            self.load_subjects_data()
+            self.prompt_found()
+
 
 
 
