@@ -30,8 +30,8 @@ class MainGUI:
         self.root.config(bg='skyblue')
         self.openDataCallback = None
         self.table_data = []
-        self.dir_text = tk.StringVar()
-        self.dir_text.set(const.INPUT_DIR_PLACEHOLDER)
+        self.prompt_text = tk.StringVar()
+        self.prompt_text.set(const.INPUT_DIR_PLACEHOLDER)
 
     def setup_gui(self):
         self.setup_left_panel()
@@ -50,7 +50,7 @@ class MainGUI:
         self.open_button = tk.Button(ltop, text='Open directory', command=self.select_input_dir, bg='black')
         self.open_button.grid(row=0, column=0)
 
-        dir_label = tk.Label(ltop, textvariable=self.dir_text, bg='black', fg='white')
+        dir_label = tk.Label(ltop, textvariable=self.prompt_text, bg='black', fg='white')
         dir_label.grid(row=0, column=1)
 
         lbot = tk.Frame(left, width=600, height=500)
@@ -75,7 +75,7 @@ class MainGUI:
         rtop = tk.Frame(right, width=400, height=100, bg='darkred')
         rtop.pack(side='top', fill='both')
 
-        freqs_button = tk.Button(rtop, text='Set frequencies')
+        freqs_button = tk.Button(rtop, text='Set frequencies', command=self.set_freq_bins)
         freqs_button.pack(side='left')
 
         chs_button = tk.Button(rtop, text='Set channel names', command=self.set_channel_names)
@@ -88,7 +88,16 @@ class MainGUI:
             print('Channels named as: %s' % str(ch_names))
         else:
             print('Error: input is not loaded so cannot set channel names')
+            self.prompt_text.set(const.NO_VALID_DATA)
 
+    def set_freq_bins(self):
+        if self.input_manager != None and self.input_manager.checked:
+            print("Nfreqs %d" % self.input_manager.n_freqs)
+            fbd = dia.FreqBinsDialog(self.input_manager.n_freqs)
+            print('Frequencies: %s' % str(fbd.getValues()))
+        else:
+            print('Error: input is not loaded so cannot set channel names')
+            self.prompt_text.set(const.NO_VALID_DATA)
 
     def setup_right_middle(self, right):
         rmid = tk.Frame(right, width=400, height=400, bg='yellow')
@@ -116,7 +125,7 @@ class MainGUI:
             print('Opening cancelled')
 
     def set_current_dir(self, dir):
-        self.dir_text.set('Current dir: %s' % dir)
+        self.prompt_text.set('Current dir: %s' % dir)
         self.input_manager = io.InputManager(dir, ext='.txt', delim_white=True, transpose=True)
         if self.input_manager.count() == 0:
             self.prompt_not_found()
@@ -136,10 +145,10 @@ class MainGUI:
 
 
     def prompt_not_found(self):
-        self.dir_text.set(const.NO_FILES_FOUND % (self.input_manager.ext, self.input_manager.input_dir))
+        self.prompt_text.set(const.NO_FILES_FOUND % (self.input_manager.ext, self.input_manager.input_dir))
 
     def prompt_found(self):
-        self.dir_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
+        self.prompt_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
 
 
 
