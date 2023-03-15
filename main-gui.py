@@ -6,7 +6,7 @@ import kernel.iomanager as io
 import kernel.datamodel as dm
 import gui.dialogs as dia
 import res.const as const
-
+import gui.plotview as pv
 
 def generate_dummy_data():
     dat = []
@@ -80,6 +80,19 @@ class MainGUI:
         chs_button = tk.Button(rtop, text='Set channel names', command=self.set_channel_names)
         chs_button.pack(side='left')
 
+    def setup_right_middle(self, right):
+        rmid = tk.Frame(right, width=400, height=400, bg='#525449')
+        rmid.pack(side='top', fill='both', expand=True)
+
+        self.plot = pv.PlotView(rmid)
+        self.plot.test()
+
+    def setup_right_bottom(self, right):
+        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
+        rbot.pack(side='bottom', fill='x')
+
+
+
     def set_channel_names(self):
         if self.input_manager != None and self.input_manager.checked:
             cnd = dia.ChannelNamesDialog(self.input_manager.n_chs)
@@ -91,6 +104,7 @@ class MainGUI:
             self.prompt_text.set(const.NO_VALID_DATA)
 
     def set_freq_bins(self):
+        self.plot.update()
         if self.input_manager != None and self.input_manager.checked:
             print("Nfreqs %d" % self.input_manager.n_freqs)
             fbd = dia.FreqBinsDialog(self.input_manager.n_freqs)
@@ -99,14 +113,6 @@ class MainGUI:
         else:
             print('Error: input is not loaded so cannot set frequencies')
             self.prompt_text.set(const.NO_VALID_DATA)
-
-    def setup_right_middle(self, right):
-        rmid = tk.Frame(right, width=400, height=400, bg='yellow')
-        rmid.pack(side='top', fill='both', expand=True, padx=4, pady=4)
-
-    def setup_right_bottom(self, right):
-        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
-        rbot.pack(side='bottom', fill='x')
 
 
 
