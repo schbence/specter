@@ -23,6 +23,7 @@ class PSDDataSetModel:
             print("Warning: channel number difference!")
 
     def freqs_chs_set(self):
+        print("Freqs chs set test: %d %d" % (len(self.chs), len(self.freqs)))
         return len(self.chs) > 0 and len(self.freqs) > 0
 
     def get_data(self, n):

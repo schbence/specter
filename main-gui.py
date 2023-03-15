@@ -16,6 +16,7 @@ def generate_dummy_data():
     return dat
 
 
+
 class MainGUI:
 
     def __init__(self):
@@ -36,7 +37,6 @@ class MainGUI:
     def setup_gui(self):
         self.setup_left_panel()
         self.setup_right_panel()
-
 
 
 
@@ -63,7 +63,6 @@ class MainGUI:
 
 
 
-
     def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkgrey')
         right.pack(side='right', expand=True, fill='both')
@@ -85,6 +84,7 @@ class MainGUI:
         if self.input_manager != None and self.input_manager.checked:
             cnd = dia.ChannelNamesDialog(self.input_manager.n_chs)
             ch_names = cnd.getValues()
+            self.datamodel.chs = ch_names
             print('Channels named as: %s' % str(ch_names))
         else:
             print('Error: input is not loaded so cannot set channel names')
@@ -94,9 +94,10 @@ class MainGUI:
         if self.input_manager != None and self.input_manager.checked:
             print("Nfreqs %d" % self.input_manager.n_freqs)
             fbd = dia.FreqBinsDialog(self.input_manager.n_freqs)
-            print('Frequencies: %s' % str(fbd.getValues()))
+            #print('Frequencies: %s' % str(fbd.getValues()))
+            self.datamodel.freqs = fbd.getValues()
         else:
-            print('Error: input is not loaded so cannot set channel names')
+            print('Error: input is not loaded so cannot set frequencies')
             self.prompt_text.set(const.NO_VALID_DATA)
 
     def setup_right_middle(self, right):

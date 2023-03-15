@@ -10,7 +10,7 @@ class TableView:
         self.select_callback = select_callback
 
         self.treeFrame = tk.Frame(parent)
-        self.tree = ttk.Treeview(self.treeFrame, columns = columns, show = 'headings')
+        self.tree = ttk.Treeview(self.treeFrame, columns = columns, show = 'headings', selectmode="browse")
 
         self.init_columns()
 
