@@ -16,9 +16,13 @@ class PlotView:
         self.canvas = tk.Canvas(parent, bg="#23241f", highlightthickness=0, width=self.size[0], height=self.size[1])
         self.canvas.pack(side='top', fill='both', expand=True)
 
-    def set_data(self, freqs, data_table):
-        self.xs = np.array(freqs)
-        self.ys = data_table.values.T
+    def set_data(self, data):
+        subj_name, data_table = data
+        self.xs = data_table['freq']
+        psd_data = data_table.drop('freq', axis=1)
+        self.ys = np.log(psd_data.values.T)
+        self.labels = psd_data.columns
+        del(psd_data)
 
     def set_data_simple(self, xs, ys):
         self.xs = xs

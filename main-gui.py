@@ -120,6 +120,8 @@ class MainGUI:
         idx = self.table.get_selected_idx()
         print("My selection: " + str(idx))
         if self.datamodel.freqs_chs_set():
+            self.plot.set_data(self.datamodel.get_data(idx[0]))
+            self.plot.update()
             print(self.datamodel.get_data(idx[0]))
 
 
