@@ -71,10 +71,10 @@ class MainGUI:
         self.setup_right_bottom(right)
 
     def setup_right_top(self, right):
-        rtop = tk.Frame(right, width=400, height=100, bg='darkred')
+        rtop = tk.Frame(right, width=400, height=100, bg='darkblue')
         rtop.pack(side='top', fill='both')
 
-        freqs_button = tk.Button(rtop, text='Set frequencies', command=self.set_freq_bins)
+        freqs_button = tk.Button(rtop, text='Set frequency bins', command=self.set_freq_bins)
         freqs_button.pack(side='left')
 
         chs_button = tk.Button(rtop, text='Set channel names', command=self.set_channel_names)
@@ -88,7 +88,7 @@ class MainGUI:
         self.plot.test()
 
     def setup_right_bottom(self, right):
-        rbot = tk.Frame(right, width=400, height=100, bg='darkgreen')
+        rbot = tk.Frame(right, width=400, height=100, bg='darkgrey')
         rbot.pack(side='bottom', fill='x')
 
 
