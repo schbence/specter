@@ -58,7 +58,7 @@ class MainGUI:
         ltop = tk.Frame(left, width=600, height=100, bg='black')
         ltop.pack(side='top', fill='x')
 
-        self.open_button = tk.Button(ltop, text='Open directory', command=self.select_input_dir, bg='black')
+        self.open_button = tk.Button(ltop, text='Open directory', command=self.select_input_dir)
         self.open_button.grid(row=0, column=0)
 
         dir_label = tk.Label(ltop, textvariable=self.prompt_text, bg='black', fg='white')
@@ -104,6 +104,9 @@ class MainGUI:
 
         self.setup_processor_panel(rbot1)
 
+        sep = ttk.Separator(right, orient='horizontal')
+        sep.pack(fill='x')
+
         rbot2 = tk.Frame(right, width=400, height=100, bg='darkred')
         rbot2.pack(side='top', fill='x')
 
@@ -116,9 +119,11 @@ class MainGUI:
         processor_chooser.bind('<<ComboboxSelected>>', self.processor_choice_callback)
         processor_chooser.pack(side='left', padx=5, pady=5)
 
-
         set_param_button = tk.Button(rbot1, text='Set parameters...', command=self.set_params_callback)
         set_param_button.pack(side='left', padx=5, pady=5)
+
+        process_one_button = tk.Button(rbot1, text='Run process')
+        process_one_button.pack(side='left', padx=5, pady=5)
 
 
 
