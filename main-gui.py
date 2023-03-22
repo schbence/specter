@@ -1,12 +1,19 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
-import gui.tableview as tv
+
 from numpy.random import randint
+
+import res.const as const
+
 import kernel.iomanager as io
 import kernel.datamodel as dm
+import kernel.processors as ps
+
 import gui.dialogs as dia
-import res.const as const
 import gui.plotview as pv
+import gui.tableview as tv
+
 
 def generate_dummy_data():
     dat = []
@@ -24,6 +31,7 @@ class MainGUI:
         self.setup_gui()
         self.input_manager = None
         self.datamodel = None
+        self.processor = None
 
     def init_vars(self):
         self.root = tk.Tk()
@@ -33,6 +41,9 @@ class MainGUI:
         self.table_data = []
         self.prompt_text = tk.StringVar()
         self.prompt_text.set(const.INPUT_DIR_PLACEHOLDER)
+        self.active_processor_key = tk.StringVar()
+        self.active_processor_key.set('<Select>')
+
 
     def setup_gui(self):
         self.setup_left_panel()
@@ -56,7 +67,7 @@ class MainGUI:
         lbot = tk.Frame(left, width=600, height=500)
         lbot.pack(side='bottom', fill='both', expand=True)
 
-        self.table = tv.TableView(lbot, select_callback=lambda: self.select_callback())
+        self.table = tv.TableView(lbot, select_callback=lambda: self.subj_select_callback())
 
         self.tree = self.table.get_tree()
         self.table.treeFrame.pack(fill='both', expand=True)
@@ -71,7 +82,7 @@ class MainGUI:
         self.setup_right_bottom(right)
 
     def setup_right_top(self, right):
-        rtop = tk.Frame(right, width=400, height=100, bg='darkblue')
+        rtop = tk.Frame(right, width=400, height=100) #, bg='darkred')
         rtop.pack(side='top', fill='both')
 
         freqs_button = tk.Button(rtop, text='Set frequency bins', command=self.set_freq_bins)
@@ -81,15 +92,34 @@ class MainGUI:
         chs_button.pack(side='left')
 
     def setup_right_middle(self, right):
-        rmid = tk.Frame(right, width=400, height=400, bg='#525449')
+        rmid = tk.Frame(right, width=400, height=300, bg='#525449')
         rmid.pack(side='top', fill='both', expand=True)
 
         self.plot = pv.PlotView(rmid)
         self.plot.test()
 
     def setup_right_bottom(self, right):
-        rbot = tk.Frame(right, width=400, height=100, bg='darkgrey')
-        rbot.pack(side='bottom', fill='x')
+        rbot1 = tk.Frame(right, width=400, height=100)
+        rbot1.pack(side='top', fill='x')
+
+        self.setup_processor_panel(rbot1)
+
+        rbot2 = tk.Frame(right, width=400, height=100, bg='darkred')
+        rbot2.pack(side='top', fill='x')
+
+    def setup_processor_panel(self, rbot1):
+        processor_chooser_label = tk.Label(rbot1, text='Processor:')
+        processor_chooser_label.pack(side='left', padx=5, pady=5)
+
+        processor_chooser = ttk.Combobox(rbot1, textvariable=self.active_processor_key, state='readonly')
+        processor_chooser['values'] = ps.get_enabled_ps_keys()
+        processor_chooser.bind('<<ComboboxSelected>>', self.processor_choice_callback)
+        processor_chooser.pack(side='left', padx=5, pady=5)
+
+
+        set_param_button = tk.Button(rbot1, text='Set parameters...', command=self.set_params_callback)
+        set_param_button.pack(side='left', padx=5, pady=5)
+
 
 
 
@@ -114,15 +144,26 @@ class MainGUI:
             print('Error: input is not loaded so cannot set frequencies')
             self.prompt_text.set(const.NO_VALID_DATA)
 
-
-
-    def select_callback(self):
+    def subj_select_callback(self):
         idx = self.table.get_selected_idx()
         print("My selection: " + str(idx))
         if self.datamodel.freqs_chs_set():
             self.plot.set_data(self.datamodel.get_data(idx[0]))
             self.plot.update()
             print(self.datamodel.get_data(idx[0]))
+
+    def set_params_callback(self):
+        print('Set the parameters for the processor')
+        if (self.active_processor_key.get() == '<Select>'):
+            self.prompt_text.set(const.NO_PROCESSOR_SELECTED)
+        else:
+            self.param_dialog = dia.ParameterInputDialog(self.processor.get_param_names(), self.processor.get_param_types())
+
+    def processor_choice_callback(self, event):
+        print('Processor selected: %s' % self.active_processor_key.get())
+        self.processor = ps.get_enabled_ps_dict()[self.active_processor_key.get()]
+
+
 
 
 

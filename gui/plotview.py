@@ -7,12 +7,12 @@ class PlotView:
     x_pad_r = 20
     y_pad = 40
     WIDTH = 400
-    HEIGHT = 400
+    HEIGHT = 300
 
     def __init__(self, parent):
         self.xs = None
         self.ys = None
-        self.size = (400, 400)
+        self.size = (400, 300)
         self.canvas = tk.Canvas(parent, bg="#23241f", highlightthickness=0, width=self.size[0], height=self.size[1])
         self.canvas.pack(side='top', fill='both', expand=True)
 

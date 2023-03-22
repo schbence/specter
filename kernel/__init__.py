@@ -1,1 +1,1 @@
-__all__ = ['datamodel', 'iomanager', 'processors']
+__all__ = ['datamodel', 'iomanager', 'processors', 'mytypes']
