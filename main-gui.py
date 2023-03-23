@@ -101,14 +101,14 @@ class MainGUI:
     def setup_right_bottom(self, right):
         rbot1 = tk.Frame(right, width=400, height=100)
         rbot1.pack(side='top', fill='x')
-
         self.setup_processor_panel(rbot1)
 
         sep = ttk.Separator(right, orient='horizontal')
         sep.pack(fill='x')
 
-        rbot2 = tk.Frame(right, width=400, height=100, bg='darkred')
+        rbot2 = tk.Frame(right, width=400, height=100)
         rbot2.pack(side='top', fill='x')
+        self.setup_batch_panel(rbot2)
 
     def setup_processor_panel(self, rbot1):
         processor_chooser_label = tk.Label(rbot1, text='Processor:')
@@ -125,7 +125,15 @@ class MainGUI:
         process_one_button = tk.Button(rbot1, text='Run process')
         process_one_button.pack(side='left', padx=5, pady=5)
 
+    def setup_batch_panel(self, rbot2):
+        batch_label = tk.Label(rbot2, text="Batch processing: ")
+        batch_label.pack(side='left', padx=5, pady=5)
 
+        out_options_button = tk.Button(rbot2, text='Output options')
+        out_options_button.pack(side='left', padx=5, pady=5)
+
+        batch_process_button = tk.Button(rbot2, text='Batch process')
+        batch_process_button.pack(side='left', padx=5, pady=5)
 
 
     def set_channel_names(self):
