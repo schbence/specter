@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
+from tkinter import filedialog, scrolledtext
 
 from numpy.random import randint
 
@@ -97,6 +97,14 @@ class MainGUI:
 
         self.plot = pv.PlotView(rmid)
         self.plot.test()
+
+        log_frame = tk.Frame(right, width=400, height=50)
+        log_frame.pack(side='top', fill='both', expand=True)
+
+        self.log_panel = scrolledtext.ScrolledText(log_frame, wrap=tk.WORD, height=8)
+        self.log_panel.insert('end', ''.join(['haha %d\n' % i for i in range(1000)]))
+        self.log_panel.configure(state='disabled')
+        self.log_panel.pack(fill='both', expand=True)
 
     def setup_right_bottom(self, right):
         rbot1 = tk.Frame(right, width=400, height=100)
