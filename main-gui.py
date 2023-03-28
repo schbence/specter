@@ -102,9 +102,13 @@ class MainGUI:
         log_frame.pack(side='top', fill='both', expand=True)
 
         self.log_panel = scrolledtext.ScrolledText(log_frame, wrap=tk.WORD, height=8)
-        self.log_panel.insert('end', ''.join(['haha %d\n' % i for i in range(1000)]))
         self.log_panel.configure(state='disabled')
         self.log_panel.pack(fill='both', expand=True)
+
+    def add_log_message(self, message):
+        self.log_panel.configure(state='enabled')
+        self.log_panel.insert('end', message)
+        self.log_panel.configure(state='disabled')
 
     def setup_right_bottom(self, right):
         rbot1 = tk.Frame(right, width=400, height=100)

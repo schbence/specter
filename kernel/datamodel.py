@@ -36,7 +36,22 @@ class PSDDataSetModel:
         else:
             print("Warning: set the frequency bins and channel names before using the data!")
 
-    def process(self, processor):
+    def single_process(self, processor, i):
+        subj, df = self.get_data(i)
+        rows = []
+        for ch in self.chs:
+            psd = df[ch]
+            ret = processor.doProcess(df['freq'], psd)
+
+            row = {}
+            row['CH'] = ch
+
+            rows.append({**row, **ret})
+        self.results = pd.DataFrame(rows)
+
+
+
+    def batch_process(self, processor):
         print('Processing using %s' % processor.name)
         if self.freqs_chs_set():
             results = []
@@ -51,9 +66,8 @@ class PSDDataSetModel:
                     row = {}
                     row['subj'] = subj
                     row['CH'] = ch
-                    for j, out in enumerate(processor.outputs):
-                        row[out] = ret[j]
-                    results.append(row)
+                    results.append({**row, **ret})
+            print(results)
             self.results = pd.DataFrame(results)
         else:
             print("Warning: set the frequency bins and channel names before processing!")

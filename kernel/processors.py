@@ -8,7 +8,8 @@ class ProcessorFOOOF:
     param_defs = {}
     param_defs['fit_low']  = {'val' : 0.25,  'type' : float}
     param_defs['fit_high'] = {'val' : 48.0,  'type' : float}
-    param_defs['use_knee'] = {'val' : False, 'type' : my_bool}
+    param_defs['n_max_peak'] = {'val' : 6, 'type' : int}
+    #param_defs['use_knee'] = {'val' : False, 'type' : my_bool}
 
     def __init__(self):
         self.params = {}
@@ -33,15 +34,15 @@ class ProcessorFOOOF:
             print('No such parameter!')
 
     def doProcess(self, freq, psd):
-        pmean = psd.mean()
-        fmean = freq.mean()
-        return fmean + self.params['fit_low'], pmean + self.params['fit_high']
+        # calculate outputs
+        
+        return {'slope':-2.5, 'inter':2.22}
 
     def report(self, report_dir, id, info=None):
         pass
 
 
-ENABLED_PROCESSORS = [ProcessorFOOOF(), ProcessorFOOOF(), ProcessorFOOOF()]
+ENABLED_PROCESSORS = [ProcessorFOOOF()]
 
 def get_enabled_ps_dict():
     return dict(zip([p.name for p in ENABLED_PROCESSORS], ENABLED_PROCESSORS))
