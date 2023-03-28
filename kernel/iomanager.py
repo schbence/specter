@@ -20,6 +20,9 @@ class InputManager:
     def get_filenames(self):
         return self.files
 
+    def get_subj_name(self, i):
+        return self.files[i]
+
     def get_full_paths(self):
         return list(map(lambda f:self.input_dir + '/' + f, self.files))
 

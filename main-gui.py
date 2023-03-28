@@ -106,8 +106,8 @@ class MainGUI:
         self.log_panel.pack(fill='both', expand=True)
 
     def add_log_message(self, message):
-        self.log_panel.configure(state='enabled')
-        self.log_panel.insert('end', message)
+        self.log_panel.configure(state='normal')
+        self.log_panel.insert('end', str(message) + '\n')
         self.log_panel.configure(state='disabled')
 
     def setup_right_bottom(self, right):
@@ -134,7 +134,7 @@ class MainGUI:
         set_param_button = tk.Button(rbot1, text='Set parameters...', command=self.set_params_callback)
         set_param_button.pack(side='left', padx=5, pady=5)
 
-        process_one_button = tk.Button(rbot1, text='Run process')
+        process_one_button = tk.Button(rbot1, text='Run process', command=self.process_one_callback)
         process_one_button.pack(side='left', padx=5, pady=5)
 
     def setup_batch_panel(self, rbot2):
@@ -188,8 +188,18 @@ class MainGUI:
         print('Processor selected: %s' % self.active_processor_key.get())
         self.processor = ps.get_enabled_ps_dict()[self.active_processor_key.get()]
 
-
-
+    def process_one_callback(self):
+        if self.processor != None:
+            if len(self.table.get_selected_idx()) > 0:
+                idx = self.table.get_selected_idx()[0]
+                self.add_log_message("Processing Subj: %s" % self.datamodel.input.get_subj_name(idx))
+                self.datamodel.process_single(self.processor, idx)
+                self.add_log_message(self.datamodel.get_results())
+                self.add_log_message('---------------------------------\n\n')
+            else:
+                self.prompt_text.set("Select a subject to process!")
+        else:
+            self.prompt_text.set("Choose a Processor!")
 
 
     def select_input_dir(self):
