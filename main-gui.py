@@ -109,6 +109,7 @@ class MainGUI:
         self.log_panel.configure(state='normal')
         self.log_panel.insert('end', str(message) + '\n')
         self.log_panel.configure(state='disabled')
+        self.log_panel.see('end')
 
     def setup_right_bottom(self, right):
         rbot1 = tk.Frame(right, width=400, height=100)
@@ -192,10 +193,16 @@ class MainGUI:
         if self.processor != None:
             if len(self.table.get_selected_idx()) > 0:
                 idx = self.table.get_selected_idx()[0]
+                self.add_log_message('======================================================================')
                 self.add_log_message("Processing Subj: %s" % self.datamodel.input.get_subj_name(idx))
+                self.add_log_message('----------------------------------------------------------------------')
+                self.add_log_message(' + Parameters: ')
+                self.add_log_message(', '.join([p + ':' + str(self.processor.params[p]) for p in self.processor.params]))
+                self.add_log_message('----------------------------------------------------------------------')
                 self.datamodel.process_single(self.processor, idx)
+                self.add_log_message(' + Results:')
                 self.add_log_message(self.datamodel.get_results())
-                self.add_log_message('---------------------------------\n\n')
+                self.add_log_message('======================================================================\n')
             else:
                 self.prompt_text.set("Select a subject to process!")
         else:

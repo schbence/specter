@@ -9,10 +9,10 @@ dat.set_freqs(np.linspace(0, 128, 1025))
 dat.set_channels(['C3','C4'])
 
 p1 = processors.ProcessorFOOOF()
-dat.single_process(p1, 0)
+dat.process_single(p1, 0)
 res1 = dat.get_results()
 
 p2 = processors.ProcessorFOOOF()
 p2.set_param('fit_range',[-500, 500])
-dat.batch_process(p2)
+dat.process_batch(p2)
 res2 = dat.get_results()

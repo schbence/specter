@@ -41,7 +41,7 @@ class PSDDataSetModel:
         rows = []
         for ch in self.chs:
             psd = df[ch]
-            ret = processor.doProcess(df['freq'], psd)
+            ret = processor.doProcess(df['freq'].values, psd.values, report=True)
 
             row = {}
             row['CH'] = ch
