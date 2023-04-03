@@ -139,7 +139,7 @@ class MainGUI:
         batch_label = tk.Label(rbot2, text="Batch processing: ")
         batch_label.pack(side='left', padx=5, pady=5)
 
-        out_options_button = tk.Button(rbot2, text='Output options')
+        out_options_button = tk.Button(rbot2, text='Output dir', command=self.select_output_dir)
         out_options_button.pack(side='left', padx=5, pady=5)
 
         batch_process_button = tk.Button(rbot2, text='Batch process', command=self.process_batch_callback)
@@ -233,11 +233,18 @@ class MainGUI:
 
 
     def select_input_dir(self):
-        dir = filedialog.askdirectory()
+        dir = filedialog.askdirectory(title='Choose directory with spectra')
         if dir != '':
             self.set_current_dir(dir)
         else:
             print('Opening cancelled')
+
+    def select_output_dir(self):
+        dir = filedialog.askdirectory()
+        if dir != '':
+            self.datamodel.outdir = dir
+        else:
+            print('Save dir cancelled')
 
     def set_current_dir(self, dir):
         self.prompt_text.set('Current dir: %s' % dir)
