@@ -35,6 +35,7 @@ class MainGUI:
 
     def init_vars(self):
         self.root = tk.Tk()
+        self.root.title('Specter 1.0')
         self.root.minsize(1000,600)
         self.root.config(bg='skyblue')
         self.openDataCallback = None
