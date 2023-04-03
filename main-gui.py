@@ -91,7 +91,7 @@ class MainGUI:
         rmid.pack(side='top', fill='both', expand=True)
 
         self.plot = pv.PlotView(rmid)
-        self.plot.test()
+        self.plot.welcome()
 
         log_frame = tk.Frame(right, width=400, height=50)
         log_frame.pack(side='top', fill='both', expand=True)

@@ -1,5 +1,6 @@
 import tkinter as tk
 import numpy as np
+import res.logo as logo
 
 class PlotView:
 
@@ -32,9 +33,10 @@ class PlotView:
         self.xs = xs
         self.ys = ys
 
-    def test(self):
-        xs = np.linspace(0.5, 50, 1025)
-        ys = np.random.randn(2, 1025)
+    def welcome(self):
+        dat = np.array(logo.coords)
+        xs = dat[:,0]
+        ys = [-dat[:,1]]
         self.set_data_simple(xs, ys)
         self.init_plot()
 
@@ -82,5 +84,5 @@ class PlotView:
         drys = self.get_draw_ys()
         for dry in drys:
             ps = np.vstack([drx, dry]).T.flatten()
-            print("LEN PS: %d" % len(ps))
+            #print("LEN PS: %d" % len(ps))
             self.canvas.create_line(list(ps), fill='#f0f0f0')
