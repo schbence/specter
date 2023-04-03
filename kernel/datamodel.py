@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import datetime
 
 class PSDDataSetModel:
 
@@ -7,6 +8,8 @@ class PSDDataSetModel:
             self.chs = []
             self.freqs = []
             self.input = input_manager
+            self.outdir = '.'
+            self.outfile = 'specter-output'
         else:
             print('Input manager has unchecked shapes')
 
@@ -79,6 +82,16 @@ class PSDDataSetModel:
 
     def get_results(self):
         return self.results
+
+    def get_time(self):
+        return datetime.now().strftime("%Y-%m-%d_%H-%M")
+
+    def save_results(self, pname):
+        self.outfile = '_'.join([pname, self.get_time()])
+        path = self.outdir + '/' + self.outfile
+        self.results.to_csv(path + '.csv')
+        self.results.to_excel(path + '.xlsx')
+        return path + '.csv'
 
     def __len__(self):
         return len(self.input.files)

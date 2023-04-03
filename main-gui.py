@@ -216,8 +216,17 @@ class MainGUI:
 
     def process_batch_callback(self):
         if self.processor != None:
+            self.add_log_message('======================================================================')
+            self.add_log_message('Running batch process on all loaded spectra')
+            self.add_log_message('----------------------------------------------------------------------')
+            self.add_log_message(' + Parameters: ')
+            self.add_log_message(', '.join([p + ':' + str(self.processor.params[p]) for p in self.processor.params]))
+            self.add_log_message('----------------------------------------------------------------------')
             self.datamodel.process_batch(self.processor)
             self.add_log_message(self.datamodel.get_results())
+            outfile = self.datamodel.save_results(self.processor.name)
+            self.add_log_message('Saved to %s' % outfile)
+            self.add_log_message('======================================================================')
         else:
             self.prompt_text.set("Choose a processor!")
 
