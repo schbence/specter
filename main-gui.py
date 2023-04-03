@@ -38,7 +38,7 @@ class MainGUI:
         self.root.minsize(1000,600)
         self.root.config(bg='skyblue')
         self.openDataCallback = None
-        self.table_data = []
+        self.table_view_data = []
         self.prompt_text = tk.StringVar()
         self.prompt_text.set(const.INPUT_DIR_PLACEHOLDER)
         self.active_processor_key = tk.StringVar()
@@ -209,6 +209,7 @@ class MainGUI:
             self.prompt_text.set("Choose a Processor!")
 
 
+
     def select_input_dir(self):
         dir = filedialog.askdirectory()
         if dir != '':
@@ -229,8 +230,8 @@ class MainGUI:
 
     def load_subjects_data(self):
         self.tree.delete(*self.tree.get_children())
-        self.table_data = self.input_manager.check_shapes()[0]
-        for d in self.table_data:
+        self.table_view_data = self.input_manager.check_shapes()[0]
+        for d in self.table_view_data:
             self.tree.insert('', tk.END, values=d)
         self.datamodel = dm.PSDDataSetModel(self.input_manager)
 
@@ -241,11 +242,6 @@ class MainGUI:
 
     def prompt_found(self):
         self.prompt_text.set(const.FILES_FOUND % (self.input_manager.count(), self.input_manager.ext, self.input_manager.input_dir))
-
-
-
-    def set_table_data(self, data):
-        self.table_data = data
 
 
 

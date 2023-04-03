@@ -15,6 +15,10 @@ class PlotView:
         self.size = (400, 300)
         self.canvas = tk.Canvas(parent, bg="#23241f", highlightthickness=0, width=self.size[0], height=self.size[1])
         self.canvas.pack(side='top', fill='both', expand=True)
+        self.canvas.bind("<Configure>", self.on_resize)
+
+    def on_resize(self, event):
+        self.update()
 
     def set_data(self, data):
         subj_name, data_table = data
