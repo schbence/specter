@@ -44,12 +44,9 @@ class MainGUI:
         self.active_processor_key = tk.StringVar()
         self.active_processor_key.set('<Select>')
 
-
     def setup_gui(self):
         self.setup_left_panel()
         self.setup_right_panel()
-
-
 
     def setup_left_panel(self):
         left = tk.Frame(self.root, width=600, height=600, bg='grey')
@@ -71,8 +68,6 @@ class MainGUI:
 
         self.tree = self.table.get_tree()
         self.table.treeFrame.pack(fill='both', expand=True)
-
-
 
     def setup_right_panel(self):
         right = tk.Frame(self.root, width=400, height=600, bg='darkgrey')
@@ -104,6 +99,8 @@ class MainGUI:
         self.log_panel = scrolledtext.ScrolledText(log_frame, wrap=tk.WORD, height=8)
         self.log_panel.configure(state='disabled')
         self.log_panel.pack(fill='both', expand=True)
+
+
 
     def add_log_message(self, message):
         self.log_panel.configure(state='normal')
@@ -183,7 +180,13 @@ class MainGUI:
         if (self.active_processor_key.get() == '<Select>'):
             self.prompt_text.set(const.NO_PROCESSOR_SELECTED)
         else:
-            self.param_dialog = dia.ParameterInputDialog(self.processor.get_param_names(), self.processor.get_param_types())
+            self.param_dialog = dia.ParameterInputDialog(self.processor)
+
+    def update_processor_params(self):
+        try:
+            self.processor.params = self.param_dialog.get_param_values()
+        except AttributeError:
+            print('default params')
 
     def processor_choice_callback(self, event):
         print('Processor selected: %s' % self.active_processor_key.get())
@@ -192,6 +195,7 @@ class MainGUI:
     def process_one_callback(self):
         if self.processor != None:
             if len(self.table.get_selected_idx()) > 0:
+                self.update_processor_params()
                 idx = self.table.get_selected_idx()[0]
                 self.add_log_message('======================================================================')
                 self.add_log_message("Processing Subj: %s" % self.datamodel.input.get_subj_name(idx))

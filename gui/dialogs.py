@@ -36,28 +36,29 @@ class ParameterInputDialog:
 
     root = None
 
-    def __init__(self, param_names, param_types):
+    def __init__(self, processor):
         self.top = tk.Toplevel(ParameterInputDialog.root)
-        self.param_names = param_names
-        self.param_types = param_types
+        self.param_names = processor.get_param_names()
+        self.param_types = processor.get_param_types()
+        def_vals = processor.get_default_values()
         fm = tk.Frame(self.top, borderwidth=4, relief='ridge')
         fm.pack(fill='both', expand=True)
 
         self.str_vals = []
-        self.str_vals = [tk.StringVar() for i in param_names]
+        self.str_vals = [tk.StringVar() for i in self.param_names]
         for i, param in enumerate(self.param_names):
             param_label = tk.Label(fm, text=param+':')
             param_label.pack(padx=4, pady=4)
 
             param_input = tk.Entry(fm, width=6, textvariable=self.str_vals[i])
             param_input.pack()
+            self.str_vals[i].set(str(def_vals[i]))
 
         closeButton = tk.Button(fm, text='Set')
         closeButton.pack(padx=4, pady=4)
         closeButton['command'] = self.top.destroy
 
-
-    def getParamValues(self):
+    def get_param_values(self):
         new_params = {}
         for i, p in enumerate(self.param_names):
             new_params[p] = self.param_types[i](self.str_vals[i].get())

@@ -30,6 +30,9 @@ class ProcessorFOOOF:
     def get_param_types(self):
         return list([p['type'] for p in ProcessorFOOOF.param_defs.values()])
 
+    def get_default_values(self):
+        return list([p['val'] for p in ProcessorFOOOF.param_defs.values()])
+
     def set_param(self, key, value):
         if key in list(ProcessorFOOOF.param_defs.keys()):
             self.params[key] = value
