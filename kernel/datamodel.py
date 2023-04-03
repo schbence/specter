@@ -59,16 +59,21 @@ class PSDDataSetModel:
                 subj, df = self.get_data(i)
                 for ch in self.chs:
                     # Get the data
-                    psd = df[ch]
-                    ret = processor.doProcess(df['freq'], psd)
+                    freqs = df['freq'].values
+                    psd = df[ch].values
+                    ret = processor.doProcess(freqs, psd)
 
                     # Store the results
                     row = {}
                     row['subj'] = subj
                     row['CH'] = ch
                     results.append({**row, **ret})
-            print(results)
-            self.results = pd.DataFrame(results)
+            df = pd.DataFrame(results)
+            df = pd.pivot_table(df, index=['subj'], columns=['CH'])
+            print(df)
+            df.columns = ['_'.join(c).strip() for c in df.columns.values]
+            self.results = df
+
         else:
             print("Warning: set the frequency bins and channel names before processing!")
 

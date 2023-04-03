@@ -142,7 +142,7 @@ class MainGUI:
         out_options_button = tk.Button(rbot2, text='Output options')
         out_options_button.pack(side='left', padx=5, pady=5)
 
-        batch_process_button = tk.Button(rbot2, text='Batch process')
+        batch_process_button = tk.Button(rbot2, text='Batch process', command=self.process_batch_callback)
         batch_process_button.pack(side='left', padx=5, pady=5)
 
 
@@ -203,7 +203,9 @@ class MainGUI:
                 self.add_log_message(' + Parameters: ')
                 self.add_log_message(', '.join([p + ':' + str(self.processor.params[p]) for p in self.processor.params]))
                 self.add_log_message('----------------------------------------------------------------------')
+
                 self.datamodel.process_single(self.processor, idx)
+
                 self.add_log_message(' + Results:')
                 self.add_log_message(self.datamodel.get_results())
                 self.add_log_message('======================================================================\n')
@@ -211,6 +213,13 @@ class MainGUI:
                 self.prompt_text.set("Select a subject to process!")
         else:
             self.prompt_text.set("Choose a Processor!")
+
+    def process_batch_callback(self):
+        if self.processor != None:
+            self.datamodel.process_batch(self.processor)
+            self.add_log_message(self.datamodel.get_results())
+        else:
+            self.prompt_text.set("Choose a processor!")
 
 
 
